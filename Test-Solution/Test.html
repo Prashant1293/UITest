@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="C:\Users\prashant\Downloads\bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css">
+    <script src="C:\Users\prashant\Downloads\bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\jquery-3.1.1.min.js">
+    </script>
+    <script src="C:\Users\prashant\Downloads\bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\js\bootstrap.min.js">
+    </script>
+    <title>Test1-UI</title>
+</head>
+
+<body style="background-color :azure ">
+
+<!-- Dividing 3 Unequal Columns -->
+
+<div class="row container">
+
+<!-- Grid 1 starts -->
+    <div class="col-sm-5  container">
+    <h1 >
+     WELCOME User
+    </h1>
+    <h2 hidden="true">
+    Hello I Am 
+    </h2>
+    <h3></h3>
+    <img  id="user-image" src="" style="border-color: green;border:double; align-items: center;">
+    </div>
+  
+<!-- Grid 1 Ends Here -->
+
+<!-- Grid 2 Starts-->
+    <div class="col-sm-2  container">
+     <div class="sidebar-nav">
+      <div class="navbar navbar-default" role="navigation" style="background-color: indigo; padding-bottom:310px ">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        <a class="navbar-brand" href="#" style="color:White">User</a>
+        </div>
+        <div class="navbar-collapse collapse sidebar-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Home</a></li>
+            <br>
+            <li><a href="gallery.html" >Gallery</a></li>
+            <br>
+            <li><a href="login.html" >SignUp</a></li>
+            <br>
+            <li><a href="MainProject.html">Tour<span class="badge">Site</span></a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          <li><a href="#SignUp" data-toggle="collapse" data-parent="#accordion" style="color:blue">
+            <span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="login.html" style="color:blue"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+        </div><!--/.nav-collapse -->
+       </div>
+      </div>
+    </div>
+ <!-- Grid 2 Ends Here --> 
+
+
+<!-- Grid 3-->
+
+    <div class="col-sm-5 container" id="div1">
+     <br>
+      <form class="form form-horizontal " id="formToSerialize" style="border: double; border-color: black">
+        <label class="form-control" for="username">Enter Username </label>
+        <input class="form-control" id="userName" name="username" type="text">
+         </form>
+          <button class="form-control btn btn-success" id="get-data">Get User Details</button>  
+           <div id ="form-div" hidden>
+            <form class="form-horizontal form-responsive" id="form1" style="border:double;border-color:brown">
+             <label for="username" class="form-control">User-Name</label>
+              <input type="text" id="user-name" name="username" class="form-control">
+        <br>
+             <label for="company" class="form-control">Company</label>
+             <input type="text" id="Company" name="company" class="form-control">
+        <br>
+             <label for="email" class="form-control">Email</label>
+             <input type="text" id="Email" name="email" class="form-control">
+        <br>
+             <label for="creation" class="form-control">Created-At</label>
+             <input type="text" id="Creation" name="creation" class="form-control">
+        <br>      
+             <label for="location" class="form-control">Location</label>
+             <input type="text" id="Location" name="location" class="form-control">
+        <br>  
+             <label for="url" class="form-control">Url</label>
+             <input type="text" id="Url" name="url" class="form-control">
+     </form>
+    </div>
+    
+    <!-- Grid 3 Ends Here -->
+
+<!-- Jquery Script And Ajax API Hit -->
+
+<script>
+      $(document).ajaxStart(function(){
+        $("#user-image").attr("src","progress.gif");
+      }).ajaxStop(function(){
+        console.log("Ajax Stopped.")
+      }).ajaxSuccess(function(){
+        console.log("Ajax Success")
+      }).ajaxComplete(function(){
+        console.log("Ajax Completed")
+      })
+
+      $("#get-data").on("click",function(){
+        var username = $("#userName").val();
+        console.log(username);
+        $.ajax({
+          url:"https://api.github.com/users/"+username,
+          success: function(data){
+            console.log(data)
+            $("#user-image").attr("src",data.avatar_url);
+            $("#user-name").attr("value",data.name);
+            $("#Company").attr("value",data.company);
+            $("#Email").attr("value",data.email);
+            $("#Creation").attr("value",data.created_at);
+            $("#Location").attr("value",data.location);
+            $("#Url").attr("value",data.html_url);
+            $("#formToSerialize").hide();
+            $("#form-div").show(); 
+            $("#get-data").hide();
+            $("h3").text(data.name);
+            $("h2").show();
+            $("h1").slideToggle("slow");
+          },
+          error: function(){
+            $("#user-image").attr("src","no-user.png");
+            $("#user-name").text("User not found");
+          }
+        });
+      });
+</script>
+     </div>
+    </div>
+
+</body>
+</html>
